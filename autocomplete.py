@@ -8,8 +8,10 @@ class Trie:
             self.end = end
             super().__init__(*args, **kwargs)
     
-    def __init__(self):
+    def __init__(self, keys):
         self.tree = self.Node()
+        for key in keys:
+            self.set(key)
     
     def get(self, key):
         node = self.tree
@@ -17,7 +19,7 @@ class Trie:
             if char in node:
                 node = node[char]
             else:
-                raise KeyError(key)
+                return
                  
         def dfs(node):
             if node.end:
@@ -38,10 +40,7 @@ class Trie:
 
 
 def autocomplete(query, strings):
-    trie = Trie()
-    for string in strings:
-        trie.set(string)
-    return list(trie.get(query))
+    return list(Trie(strings).get(query))
 
 
 print(autocomplete('de', ['dog', 'deer', 'deal'])) #=> ['deer', 'deal']
